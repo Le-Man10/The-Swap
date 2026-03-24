@@ -1,0 +1,48 @@
+services:
+  postgresvdb:
+    image: 'ankane/pgvector:latest'
+    container_name: postgresvdb
+    env_file:
+      - .prod.env  # Load environment variables from .prod.env file
+    environment:
+      - 'POSTGRES_DB=${POSTGRES_DB}'  # Use environment variable
+      - 'POSTGRES_PASSWORD=${POSTGRES_PASSWORD}'  # Use environment variable
+      - 'POSTGRES_USER=${POSTGRES_USER}'  # Use environment variable
+    ports:
+      - '5432:5432'
+    volumes:
+      - vdb-data:/var/lib/postgresql/data  # Persist data in a Docker volume
+  ollama:
+    image: ollama/ollama
+    container_name: 'ollama'
+    volumes:
+      - ollama-models:/root/.ollama
+    ports:
+      - 11434:11434
+
+  spring-theswap-app:
+    build: .  # Builds from Dockerfile in current directory
+    depends_on:
+      - 'postgresvdb'
+    container_name: spring-theswap-app
+    env_file:
+      - '.prod.env'  # Load environment variables from .prod.env file
+    environment:
+
+      # cors config
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresvdb:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SERVER_ERROR_INCLUDE-MESSAGE: always
+      SPRING_JPA_HIBERNATE_DDL-AUTO: update
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG
+
+      # Other Spring properties (optional)
+      SERVER_PORT: 8080
+    ports:
+      - "8080:8080"  # Host:Container port mapping
+
+volumes:
+  vdb-data:
+  ollama-models:
+
