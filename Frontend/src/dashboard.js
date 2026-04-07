@@ -108,7 +108,7 @@ async function doSubmit() {
         { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }
       );
       triggerDownload(blob, 'swap_result.xlsx');
-      showSuccess('Demo: file "processed" successfully. (No real server was called.)');
+      showSuccess('Demo: file "processed" successfully. (No server was called, for demo.)');
       removeFile();
 
     } else {
@@ -134,7 +134,7 @@ async function doSubmit() {
     }
 
   } catch (e) {
-    showError('Could not reach the server. Check your connection.');
+    showError('Not connected to server. Check your connection.');
   } finally {
     btn.disabled = false;
     btn.textContent = 'Submit file';

@@ -241,7 +241,7 @@ body::before {
 .toggle input:checked + .toggle-slider { background: var(--blue); }
 .toggle input:checked + .toggle-slider::before { transform: translateX(16px); }
 
-/* ── card ── */
+/*  card */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -260,7 +260,7 @@ body::before {
   margin-bottom: 1rem;
 }
 
-/* ── upload zone ── */
+/*upload zone */
 .upload-zone {
   border: 1.5px dashed var(--border-strong);
   border-radius: var(--radius);

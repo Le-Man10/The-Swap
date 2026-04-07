@@ -1,4 +1,3 @@
-// ─── CONFIG ───────────────────────────────────────────────
 const API_BASE   = 'http://localhost:8080/api/v1/login'; // replace when server is ready
 const MOCK_MODE  = true; // set to false when server is ready
 
