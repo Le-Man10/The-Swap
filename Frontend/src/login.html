@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Swap — Sign In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="brand">
+    <div class="brand-icon">
+      <img src="Frontend/src/images/swap.png" alt="Swap logo" width="24" height="24" style="display: block;">
+    </div>
+    <h1>The Swap</h1>
+    <p>Sign in to your account to continue</p>
+  </div>
+
+  <div class="card">
+    <div class="mock-banner" id="mock-banner">
+      <div class="mock-dot"></div>
+      Demo mode — any email &amp; password will work (server not connected yet...ALex help please lol).
+    </div>
+
+    <div class="error-box" id="error-box"></div>
+
+    <div class="field">
+      <label for="email">Email address</label>
+      <input type="email" id="email" placeholder="you@example.com" autocomplete="email" />
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+
+    <button class="btn" id="login-btn" onclick="doLogin()">Sign in</button>
+  </div>
+
+  <p class="footer-note">The Swap &mdash; v1 &nbsp;|&nbsp; We Appreciate you Dr Kapuire :)</p>
+</div>
+
+<script src="login.js"></script>
+</body>
+</html>

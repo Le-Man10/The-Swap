@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Swap — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+<div class="page">
+
+  <!-- topbar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-logo">
+        <img src="Frontend/src/images/swap.png" alt="Swap logo" width="24" height="24" style="display: block;">
+      </div>
+      <h1>The Swap</h1>
+    </div>
+    <div class="topbar-right">
+      <div class="user-pill">
+        <div class="user-avatar" id="user-avatar">??</div>
+        <span class="user-email" id="user-email">—</span>
+      </div>
+      <button class="btn-logout" onclick="doLogout()">Sign out</button>
+    </div>
+  </header>
+
+  <!-- main content -->
+  <main class="main">
+    <p class="page-title">Dashboard</p>
+    <p class="page-subtitle">Upload an attendance file to process the swap.</p>
+
+    <!-- mock mode banner, will be removed when server is connected -->
+    <div class="mock-banner" id="mock-banner">
+      <div class="mock-banner-left">
+        <div class="mock-dot"></div>
+         No file is sent to a server.. ALex help please hehe.
+      </div>
+      <div class="toggle-wrap">
+        <span>server need to be connected ALEX HELPPP</span>
+        <label class="toggle">
+          <input type="checkbox" id="live-toggle" onchange="toggleLive(this)" />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- feedback -->
+    <div class="feedback-box error" id="error-box"></div>
+    <div class="feedback-box success" id="success-box"></div>
+
+    <!-- upload card -->
+    <div class="card">
+      <div class="card-label">Upload file</div>
+
+      <div class="upload-zone" id="drop-zone"
+           onclick="document.getElementById('file-input').click()"
+           ondragover="handleDragOver(event)"
+           ondragleave="handleDragLeave(event)"
+           ondrop="handleDrop(event)">
+        <input type="file" id="file-input" accept=".xlsx,.xls" onchange="handleFileSelect(event)" />
+        <div class="upload-icon">
+           <img src="Frontend/src/images/swap.png" alt="Swap logo" width="24" height="24" style="display: block;">
+        </div>
+        <h3>Drop your Excel file here</h3>
+        <p>or <span class="browse">browse to upload</span></p>
+        <p style="margin-top:7px; font-size:12px; color:var(--text-muted);">Accepts .xlsx and .xls dont be shy</p>
+      </div>
+
+      <div id="file-pill" class="file-pill" style="display:none;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#185FA5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>
+        <span class="file-name" id="file-name-display"></span>
+        <span class="file-size" id="file-size-display"></span>
+        <button class="remove-btn" onclick="removeFile()" title="Remove">✕</button>
+      </div>
+
+      <button class="btn-submit" id="submit-btn" onclick="doSubmit()" disabled>Submit file</button>
+    </div>
+
+    <!-- columns reference card -->
+    <div class="card">
+      <div class="card-label">Expected columns — in order</div>
+      <div class="columns-grid">
+        <span class="col-tag">GroupNo</span>
+        <span class="col-tag">Consultant/ClientName</span>
+        <span class="col-tag">Consultant/ClientEmail</span>
+        <span class="col-tag">Student#</span>
+        <span class="col-tag">Surname</span>
+        <span class="col-tag">FullName</span>
+        <span class="col-tag">Attendance rate%</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="card-label">API info</div>
+      <div class="meta-row">
+        <span>Endpoint</span>
+        <span class="meta-value">POST /api/v1/swap</span>
+      </div>
+      <div class="meta-row">
+        <span>Auth</span>
+        <span class="meta-value">Bearer JWT</span>
+      </div>
+      <div class="meta-row">
+        <span>Response</span>
+        <span class="meta-value">Excel file download</span>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="dashboard.js"></script>
+</body>
+</html>
