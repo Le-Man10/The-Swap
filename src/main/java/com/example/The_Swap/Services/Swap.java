@@ -19,7 +19,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.*;
 
 import java.io.*;
@@ -76,11 +78,12 @@ public class Swap implements Query<MultipartFile,Resource> {
             try {
                 String jsonPreSwapList = convertExcelToJson(sheetreceive);
                 System.out.println(jsonPreSwapList);
-                String jsonPostSwapList = aiChatService.chat(jsonPreSwapList);
-                List<Group> postSwapList = mapper.readerForListOf(Group.class).readValue(jsonPostSwapList);
+                System.out.println("Query text length being embedded: " + jsonPreSwapList.length() + " characters (~" + (jsonPreSwapList.length() / 4) + " tokens)");
+                List<Group> jsonPostSwapList = aiChatService.chat(jsonPreSwapList).block(Duration.ofMinutes(5));
                 int i = 1;
                 int studentCount = 0;
-                for(Group group:postSwapList){
+                assert jsonPostSwapList != null;
+                for(Group group:jsonPostSwapList){
                     while(studentCount< 2){
                         int sec = i++;
                         if (i%2==1){
@@ -142,39 +145,48 @@ public class Swap implements Query<MultipartFile,Resource> {
         public String convertExcelToJson(Sheet sheet) throws Exception {
 
             List<Group> preSwapList = new ArrayList<>();
+            int groupCellNo;
+            int sheetRowNum = sheet.getLastRowNum();
+            System.out.println("last index"+sheetRowNum);
 
             DataFormatter formatter = new DataFormatter();
 
-            // 2. STATE TRACKER: This remembers the car name for "empty" rows
+
             int groupNumber = 0;
+            sheet.removeRow(sheet.getRow(0));
+            System.out.println(sheet.getRow(4).getCell(0).getNumericCellValue());
 
             for (Row row : sheet) {
-                // Get raw values from Column 0 (Car) and Column 1 (Person)
-                int groupCell = Integer.parseInt(formatter.formatCellValue(row.getCell(0)));
-                String clientName = formatter.formatCellValue(row.getCell(1));
-                String clientEmail = formatter.formatCellValue(row.getCell(2));
-                long studentNo = Long.parseLong(formatter.formatCellValue(row.getCell(3)));
-                String studentSurname = formatter.formatCellValue(row.getCell(4));
-                String studentFullNames = formatter.formatCellValue(row.getCell(5));
-                int attendanceRate = Integer.parseInt(formatter.formatCellValue(row.getCell(6)));
+                System.out.println("row index number"+row.getRowNum());
+                if(!(row.getRowNum()>sheetRowNum)){
+                    // Get raw values
+                    String groupCellString = formatter.formatCellValue(row.getCell(0));
+                    String clientName = formatter.formatCellValue(row.getCell(1));
+                    String clientEmail = formatter.formatCellValue(row.getCell(2));
+                    String studentNo = formatter.formatCellValue(row.getCell(3));
+                    String studentSurname = formatter.formatCellValue(row.getCell(4));
+                    String studentFullNames = formatter.formatCellValue(row.getCell(5));
+                    int attendanceRate = Integer.parseInt(formatter.formatCellValue(row.getCell(6)));
+                    System.out.println(groupCellString);
 
 
-                // Skip completely empty rows
-
-
-                // 3. LOGIC: Update currentCarName ONLY if the cell isn't empty
-                // If the cell is empty (like row 2 of a pair), it keeps the previous value
-                if (groupCell != 0) {
-                    groupNumber = groupCell;
-                    Student studentDetails = new Student(studentNo,studentSurname,studentFullNames,attendanceRate);
-                    List<Student> students = new ArrayList<>();
-                    students.add(studentDetails);
-                    Group pair = new Group(groupNumber,clientName,clientEmail, students);
-                    preSwapList.add(pair);
-                } else{
-                    int groupIndex = groupNumber-1;
-                    Student studentDetails = new Student(studentNo,studentSurname,studentFullNames,attendanceRate);
-                    preSwapList.get(groupIndex).getPartners().add(studentDetails);
+                    if (!groupCellString.isEmpty()) {
+                        groupCellNo = Integer.parseInt(groupCellString);
+                        groupNumber = groupCellNo;
+                        Student studentDetails = new Student(studentNo,studentSurname,studentFullNames,attendanceRate);
+                        List<Student> students = new ArrayList<>();
+                        students.add(studentDetails);
+                        Group pair = new Group(groupNumber,clientName,clientEmail, students);
+                        preSwapList.add(pair);
+                        System.out.println("printout before else"+preSwapList.getLast().getGroupNo());
+                    } else{
+                        int groupIndex = groupNumber-1;
+                        Student studentDetails = new Student(studentNo,studentSurname,studentFullNames,attendanceRate);
+                        preSwapList.get(groupIndex).getPartners().add(studentDetails);
+                        System.out.println("printout else"+ preSwapList.getLast().getGroupNo());
+                    }
+                }else {
+                    break;
                 }
             }
 

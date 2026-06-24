@@ -1,4 +1,4 @@
-package com.example.TailorMe.API.Exceptionhandling;
+package com.example.The_Swap.Exceptions;
 
 public class noUsernameOrPasswordException extends RuntimeException {
     public noUsernameOrPasswordException(){

@@ -1,12 +1,13 @@
-package com.example.TailorMe.API.Services.userServices;
+package com.example.The_Swap.Services;
 
-import com.example.TailorMe.API.Models.user;
-import com.example.TailorMe.API.Repositories.userRepository;
+import com.example.The_Swap.Model.user;
+import com.example.The_Swap.Repositories.userRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
 @Service
 public class CustomUserDetailService implements UserDetailsService{
         private final userRepository userepo;

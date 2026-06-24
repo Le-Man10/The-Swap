@@ -1,7 +1,6 @@
-package com.example.TailorMe.API.Security;
+package com.example.The_Swap.Security;
 
-
-import com.example.TailorMe.API.Security.jwt.jwtAuthenticationFilter;
+import com.example.The_Swap.Security.jwt.jwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,35 +17,33 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class sercurityConfiguration {
-    @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity httpSecurity) throws Exception{
-        return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class).build();
-    }
-    @Bean
-    public PasswordEncoder passwordencoder(){
-        return new BCryptPasswordEncoder();
-    }
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                //allows for POST, PUT, DELETE mappings with authentication
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize->{
-                    authorize.requestMatchers("user/login").permitAll();
-                    authorize.requestMatchers("user/signup").permitAll();
-                    authorize.requestMatchers("user/codeLogin").permitAll();
-                    authorize.requestMatchers(HttpMethod.GET, "tailorApi/v1/getDresses").hasAuthority("TAILOR");
-                    authorize.requestMatchers(HttpMethod.GET,"tailorApi/v1/getDressbyId").hasAuthority("TAILOR");
-                    authorize.requestMatchers(HttpMethod.DELETE,"tailorApi/v1/deleteDresses").hasAuthority("TAILOR");
-                    authorize.requestMatchers(HttpMethod.DELETE,"tailorApi/v1/deleteDressById").hasAuthority("TAILOR");
-                    authorize.requestMatchers(HttpMethod.POST ,"tailorApi/v1/getDressbyId").hasAuthority("TAILOR");
-                  authorize.anyRequest().authenticated();
-                })
-                .addFilterBefore(JWTAuthenticatIONFilter(), UsernamePasswordAuthenticationFilter.class)
-                .build();
-    }
-    @Bean
-    public jwtAuthenticationFilter JWTAuthenticatIONFilter(){
-        return new jwtAuthenticationFilter();
-    }
+  @Bean
+  public AuthenticationManager authenticationManager(HttpSecurity httpSecurity) throws Exception {
+    return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class).build();
+  }
+
+  @Bean
+  public PasswordEncoder passwordencoder() {
+    return new BCryptPasswordEncoder();
+  }
+
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    return httpSecurity
+        // allows for POST, PUT, DELETE mappings with authentication
+        .csrf(AbstractHttpConfigurer::disable)
+        .authorizeHttpRequests(authorize -> {
+          authorize.requestMatchers(HttpMethod.GET, "/api/v1/login").permitAll();
+          authorize.requestMatchers(HttpMethod.GET, "/api/v1/swap").hasAuthority("ADMIN");
+          authorize.requestMatchers(HttpMethod.POST, "/api/v1/load").permitAll();
+          authorize.anyRequest().authenticated();
+        })
+        .addFilterBefore(JWTAuthenticatIONFilter(), UsernamePasswordAuthenticationFilter.class)
+        .build();
+  }
+
+  @Bean
+  public jwtAuthenticationFilter JWTAuthenticatIONFilter() {
+    return new jwtAuthenticationFilter();
+  }
 }

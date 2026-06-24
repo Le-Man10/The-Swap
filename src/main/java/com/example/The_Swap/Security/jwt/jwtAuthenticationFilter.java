@@ -1,4 +1,4 @@
-package com.example.TailorMe.API.Security.jwt;
+package com.example.The_Swap.Security.jwt;
 
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;

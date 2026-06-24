@@ -1,4 +1,4 @@
-package com.example.TailorMe.API.Security;
+package com.example.The_Swap.Security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

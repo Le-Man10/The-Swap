@@ -1,6 +1,6 @@
-package com.example.TailorMe.API.Repositories;
+package com.example.The_Swap.Repositories;
 
-import com.example.TailorMe.API.Models.user;
+import com.example.The_Swap.Model.user;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface userRepository extends JpaRepository<user,Long> {

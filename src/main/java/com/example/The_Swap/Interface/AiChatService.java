@@ -1,7 +1,10 @@
 package com.example.The_Swap.Interface;
 
+import com.example.The_Swap.Model.Group;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.spring.AiService;
+import reactor.core.publisher.Mono;
+
 import java.util.List;
 
 
@@ -31,6 +34,6 @@ public interface AiChatService {
                                 "surname": (String),
                                 "fullName": (String),
                                 "attendanceRate": (Integer))""")
-    String chat(String message);
+    Mono<List<Group>> chat(String message);
 }
 

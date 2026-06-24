@@ -1,5 +1,5 @@
-package com.example.TailorMe.API.enumTypes;
+package com.example.The_Swap.enumTypes;
 
 public enum Roles {
-    TAILOR, ADMIN
+     REGULAR,ADMIN
 }

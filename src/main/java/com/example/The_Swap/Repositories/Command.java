@@ -1,4 +1,4 @@
-package com.example.TailorMe.API.Repositories;
+package com.example.The_Swap.Repositories;
 
 import org.springframework.http.ResponseEntity;
 

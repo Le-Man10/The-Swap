@@ -1,12 +1,10 @@
-package com.example.TailorMe.API.Models;
+package com.example.The_Swap.Model;
 
-import com.example.TailorMe.API.enumTypes.Roles;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.example.The_Swap.enumTypes.Roles;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 
 @Entity
@@ -19,7 +17,7 @@ public class user {
     @Column(name = "userRole")
     @NotNull(message = "user role is null")
     @Enumerated(EnumType.STRING)
-    private Roles userRole = Roles.TAILOR;
+    private Roles userRole = Roles.REGULAR;
     @Column(name = "firstName")
     private String firstName;
     @Column(name = "lastName")
@@ -29,20 +27,6 @@ public class user {
     private String email;
     @Column(name = "password",nullable = false)
     private String password;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "userId")
-    private OneTimeCodeModel OTP;
-
-
-
-    public OneTimeCodeModel getOTP() {
-        return OTP;
-    }
-
-    public void setOTP(OneTimeCodeModel OTP) {
-        this.OTP = OTP;
-    }
 
     public Roles getUserRole() {
         return userRole;

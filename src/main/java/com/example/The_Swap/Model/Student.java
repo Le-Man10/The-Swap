@@ -1,22 +1,29 @@
 package com.example.The_Swap.Model;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.Length;
 
 public class Student {
     @NotNull(message = "Please enter student number")
-    private long studentNo;
+    @Size(min = 9,max = 9,message = "student number must have 9 characters")
+    private String studentNo;
     @NotNull(message = "Please enter student surname")
     private String surname;
     @NotNull(message = "Please enter student full name")
     private String fullName;
+    @Max(value = 100, message = "Attendance rate must be less that 100")
+    @Min(value = 0,message = "Attendance rate must be more that 0")
     @NotNull(message = "Please enter attendance rate")
     private int attendanceRate;
 
-    public long getStudentNo() {
+    public String getStudentNo() {
         return studentNo;
     }
 
-    public void setStudentNo(long studentNo) {
+    public void setStudentNo(String studentNo) {
         this.studentNo = studentNo;
     }
 
@@ -44,7 +51,7 @@ public class Student {
         this.attendanceRate = attendanceRate;
     }
 
-    public Student(long studentNo, String surname, String fullName, int attendanceRate) {
+    public Student(String studentNo, String surname, String fullName, int attendanceRate) {
         this.studentNo = studentNo;
         this.surname = surname;
         this.fullName = fullName;

@@ -1,7 +1,7 @@
-package com.example.TailorMe.API.Models;
+package com.example.The_Swap.Model;
 
 
-import com.example.TailorMe.API.enumTypes.Roles;
+import com.example.The_Swap.enumTypes.Roles;
 
 public class userDTO {
 
@@ -15,7 +15,7 @@ public class userDTO {
     private String email;
     private String jwt;
 
-    public userDTO(user loginUser,String jwtToken) {
+    public userDTO(user loginUser, String jwtToken) {
         this.userId = loginUser.getUserId();
         this.userRole = loginUser.getUserRole();
         this.firstName = loginUser.getFirstName();

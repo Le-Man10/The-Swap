@@ -1,12 +1,12 @@
-package com.example.TailorMe.API.Services.userServices;
+package com.example.The_Swap.Services;
 
-import com.example.TailorMe.API.Exceptionhandling.noUsernameOrPasswordException;
-import com.example.TailorMe.API.Models.LoginDTO;
-import com.example.TailorMe.API.Models.user;
-import com.example.TailorMe.API.Models.userDTO;
-import com.example.TailorMe.API.Repositories.Command;
-import com.example.TailorMe.API.Repositories.userRepository;
-import com.example.TailorMe.API.Security.jwt.jwtUtil;
+import com.example.The_Swap.Exceptions.noUsernameOrPasswordException;
+import com.example.The_Swap.Model.LoginDTO;
+import com.example.The_Swap.Model.user;
+import com.example.The_Swap.Model.userDTO;
+import com.example.The_Swap.Repositories.Command;
+import com.example.The_Swap.Repositories.userRepository;
+import com.example.The_Swap.Security.jwt.jwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
